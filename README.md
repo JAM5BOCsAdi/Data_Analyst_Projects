@@ -1,3 +1,5 @@
+<h1>Data Analyst Projects</h1>
+
 <h2>Links for other Data Analyst Projects:</h2>
 
 <p>Data Analyst Python: <a href="https://github.com/JAM5BOCsAdi/Data_Analyst_Python">Click here</a></p>
