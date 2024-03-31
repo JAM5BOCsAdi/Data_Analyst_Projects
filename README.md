@@ -9,22 +9,7 @@
 <p>Data Analyst Power Bi: <a href="https://github.com/JAM5BOCsAdi/Data_Analyst_Power_Bi">Click here</a></p>
 
 <h2>Images of Data Analyst Projects:</h2>
-<<<<<<< HEAD
-<h3>Bank Loan:</h3>
 
-|                                                                                                                                       |                                                                                                                                       |
-| :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: |
-| <img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/45e54b59-ebbf-45b6-bbee-f3cb0a0b8997"> | <img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/2c7c8265-78bd-48b9-b9be-28d61d2f0dce"> |
-| <img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/2e8423fb-f158-4807-b561-fd170a7b788f"> | <img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/03fd65ba-4e70-43b1-b1e7-ea9142ba3a59"> |
-
-|                              |                              |
-| :--------------------------: | :--------------------------: |
-| <img height="400 px" src=""> | <img height="400 px" src=""> |
-
-|                              |                              |
-| :--------------------------: | :--------------------------: |
-| <img height="400 px" src=""> | <img height="400 px" src=""> |
-=======
 <h3>Bank Loan Report:</h3>
 
 | | |
@@ -41,4 +26,4 @@
 | | |
 |:-------------------------:|:-------------------------:|
 |<img height="400 px" src=""> | <img height="400 px" src=""> |
->>>>>>> 0d6146f9c635ff40155c6d063e23be9001526e8f
+
