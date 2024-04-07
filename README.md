@@ -19,6 +19,7 @@
 |<img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/2e8423fb-f158-4807-b561-fd170a7b788f"> | <img height="400 px" src="https://github.com/JAM5BOCsAdi/Data_Analyst_Projects/assets/90914431/03fd65ba-4e70-43b1-b1e7-ea9142ba3a59"> |
 
 <h4>PowerBi:</h4>
+<p>On-Going</p>
 
 | | |
 |:-------------------------:|:-------------------------:|
