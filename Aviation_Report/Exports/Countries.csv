@@ -1,0 +1,101 @@
+data.id,data.capital,data.currency_code,data.fips_code,data.country_iso2,data.country_iso3,data.continent,data.country_id,data.country_name,data.currency_name,data.country_iso_numeric,data.phone_prefix,data.population
+55441,"Andorra la Vella","EUR","AN","AD","AND","EU",1,"Andorra","Euro",20,"376",84000
+55442,"Abu Dhabi","AED","AE","AE","ARE","AS",2,"United Arab Emirates","Dirham",784,"971",4975593
+55443,"Kabul","AFN","AF","AF","AFG","AS",3,"Afghanistan","Afghani",4,"93",29121286
+55444,"St. John's","XCD","AC","AG","ATG","NA",4,"Antigua and Barbuda","Dollar",28,"+1-268",86754
+55445,"The Valley","XCD","AV","AI","AIA","NA",5,"Anguilla","Dollar",660,"+1-264",13254
+55446,"Tirana","ALL","AL","AL","ALB","EU",6,"Albania","Lek",8,"355",2986952
+55447,"Yerevan","AMD","AM","AM","ARM","AS",7,"Armenia","Dram",51,"374",2968000
+55448,"Willemstad","ANG","NT","AN","ANT","NA",8,"Netherlands Antilles","Guilder",530,"599",136197
+55449,"Luanda","AOA","AO","AO","AGO","AF",9,"Angola","Kwanza",24,"244",13068161
+55450,"","","AY","AQ","ATA","AN",10,"Antarctica","",10,"",
+55451,"Buenos Aires","ARS","AR","AR","ARG","SA",11,"Argentina","Peso",32,"54",41343201
+55452,"Pago Pago","USD","AQ","AS","ASM","OC",12,"American Samoa","Dollar",16,"+1-684",57881
+55453,"Vienna","EUR","AU","AT","AUT","EU",13,"Austria","Euro",40,"43",8205000
+55454,"Canberra","AUD","AS","AU","AUS","OC",14,"Australia","Dollar",36,"61",21515754
+55455,"Oranjestad","AWG","AA","AW","ABW","NA",15,"Aruba","Guilder",533,"297",71566
+55456,"Mariehamn","EUR","","AX","ALA","EU",16,"Aland Islands","Euro",248,"+358-18",26711
+55457,"Baku","AZN","AJ","AZ","AZE","AS",17,"Azerbaijan","Manat",31,"994",8303512
+55458,"Sarajevo","BAM","BK","BA","BIH","EU",18,"Bosnia and Herzegovina","Marka",70,"387",4590000
+55459,"Bridgetown","BBD","BB","BB","BRB","NA",19,"Barbados","Dollar",52,"+1-246",285653
+55460,"Dhaka","BDT","BG","BD","BGD","AS",20,"Bangladesh","Taka",50,"880",156118464
+55461,"Brussels","EUR","BE","BE","BEL","EU",21,"Belgium","Euro",56,"32",10403000
+55462,"Ouagadougou","XOF","UV","BF","BFA","AF",22,"Burkina Faso","Franc",854,"226",16241811
+55463,"Sofia","BGN","BU","BG","BGR","EU",23,"Bulgaria","Lev",100,"359",7148785
+55464,"Manama","BHD","BA","BH","BHR","AS",24,"Bahrain","Dinar",48,"973",738004
+55465,"Bujumbura","BIF","BY","BI","BDI","AF",25,"Burundi","Franc",108,"257",9863117
+55466,"Porto-Novo","XOF","BN","BJ","BEN","AF",26,"Benin","Franc",204,"229",9056010
+55467,"Gustavia","EUR","TB","BL","BLM","NA",27,"Saint BarthÃ©lemy","Euro",652,"590",8450
+55468,"Hamilton","BMD","BD","BM","BMU","NA",28,"Bermuda","Dollar",60,"+1-441",65365
+55469,"Bandar Seri Begawan","BND","BX","BN","BRN","AS",29,"Brunei","Dollar",96,"673",395027
+55470,"Sucre","BOB","BL","BO","BOL","SA",30,"Bolivia","Boliviano",68,"591",9947418
+55471,"","USD","","BQ","BES","NA",31,"Bonaire, Saint Eustatius and Saba","Dollar",535,"599",18012
+55472,"Brasilia","BRL","BR","BR","BRA","SA",32,"Brazil","Real",76,"55",201103330
+55473,"Nassau","BSD","BF","BS","BHS","NA",33,"Bahamas","Dollar",44,"+1-242",301790
+55474,"Thimphu","BTN","BT","BT","BTN","AS",34,"Bhutan","Ngultrum",64,"975",699847
+55475,"","NOK","BV","BV","BVT","AN",35,"Bouvet Island","Krone",74,"",
+55476,"Gaborone","BWP","BC","BW","BWA","AF",36,"Botswana","Pula",72,"267",2029307
+55477,"Minsk","BYR","BO","BY","BLR","EU",37,"Belarus","Ruble",112,"375",9685000
+55478,"Belmopan","BZD","BH","BZ","BLZ","NA",38,"Belize","Dollar",84,"501",314522
+55479,"Ottawa","CAD","CA","CA","CAN","NA",39,"Canada","Dollar",124,"1",33679000
+55480,"West Island","AUD","CK","CC","CCK","AS",40,"Cocos Islands","Dollar",166,"61",628
+55481,"Kinshasa","CDF","CG","CD","COD","AF",41,"Democratic Republic of the Congo","Franc",180,"243",70916439
+55482,"Bangui","XAF","CT","CF","CAF","AF",42,"Central African Republic","Franc",140,"236",4844927
+55483,"Brazzaville","XAF","CF","CG","COG","AF",43,"Republic of the Congo","Franc",178,"242",3039126
+55484,"Berne","CHF","SZ","CH","CHE","EU",44,"Switzerland","Franc",756,"41",7581000
+55485,"Yamoussoukro","XOF","IV","CI","CIV","AF",45,"Ivory Coast","Franc",384,"225",21058798
+55486,"Avarua","NZD","CW","CK","COK","OC",46,"Cook Islands","Dollar",184,"682",21388
+55487,"Santiago","CLP","CI","CL","CHL","SA",47,"Chile","Peso",152,"56",16746491
+55488,"Yaounde","XAF","CM","CM","CMR","AF",48,"Cameroon","Franc",120,"237",19294149
+55489,"Beijing","CNY","CH","CN","CHN","AS",49,"China","Yuan Renminbi",156,"86",1330044000
+55490,"Bogota","COP","CO","CO","COL","SA",50,"Colombia","Peso",170,"57",44205293
+55491,"San Jose","CRC","CS","CR","CRI","NA",51,"Costa Rica","Colon",188,"506",4516220
+55492,"Belgrade","RSD","YI","CS","SCG","EU",52,"Serbia and Montenegro","Dinar",891,"381",10829175
+55493,"Havana","CUP","CU","CU","CUB","NA",53,"Cuba","Peso",192,"53",11423000
+55494,"Praia","CVE","CV","CV","CPV","AF",54,"Cape Verde","Escudo",132,"238",508659
+55495," Willemstad","ANG","UC","CW","CUW","NA",55,"CuraÃ§ao","Guilder",531,"599",141766
+55496,"Flying Fish Cove","AUD","KT","CX","CXR","AS",56,"Christmas Island","Dollar",162,"61",1500
+55497,"Nicosia","EUR","CY","CY","CYP","EU",57,"Cyprus","Euro",196,"357",1102677
+55498,"Prague","CZK","EZ","CZ","CZE","EU",58,"Czech Republic","Koruna",203,"420",10476000
+55499,"Berlin","EUR","GM","DE","DEU","EU",59,"Germany","Euro",276,"49",81802257
+55500,"Djibouti","DJF","DJ","DJ","DJI","AF",60,"Djibouti","Franc",262,"253",740528
+55501,"Copenhagen","DKK","DA","DK","DNK","EU",61,"Denmark","Krone",208,"45",5484000
+55502,"Roseau","XCD","DO","DM","DMA","NA",62,"Dominica","Dollar",212,"+1-767",72813
+55503,"Santo Domingo","DOP","DR","DO","DOM","NA",63,"Dominican Republic","Peso",214,"+1-809 and 1-829",9823821
+55504,"Algiers","DZD","AG","DZ","DZA","AF",64,"Algeria","Dinar",12,"213",34586184
+55505,"Quito","USD","EC","EC","ECU","SA",65,"Ecuador","Dollar",218,"593",14790608
+55506,"Tallinn","EUR","EN","EE","EST","EU",66,"Estonia","Euro",233,"372",1291170
+55507,"Cairo","EGP","EG","EG","EGY","AF",67,"Egypt","Pound",818,"20",80471869
+55508,"El-Aaiun","MAD","WI","EH","ESH","AF",68,"Western Sahara","Dirham",732,"212",273008
+55509,"Asmara","ERN","ER","ER","ERI","AF",69,"Eritrea","Nakfa",232,"291",5792984
+55510,"Madrid","EUR","SP","ES","ESP","EU",70,"Spain","Euro",724,"34",46505963
+55511,"Addis Ababa","ETB","ET","ET","ETH","AF",71,"Ethiopia","Birr",231,"251",88013491
+55512,"Helsinki","EUR","FI","FI","FIN","EU",72,"Finland","Euro",246,"358",5244000
+55513,"Suva","FJD","FJ","FJ","FJI","OC",73,"Fiji","Dollar",242,"679",875983
+55514,"Stanley","FKP","FK","FK","FLK","SA",74,"Falkland Islands","Pound",238,"500",2638
+55515,"Palikir","USD","FM","FM","FSM","OC",75,"Micronesia","Dollar",583,"691",107708
+55516,"Torshavn","DKK","FO","FO","FRO","EU",76,"Faroe Islands","Krone",234,"298",48228
+55517,"Paris","EUR","FR","FR","FRA","EU",77,"France","Euro",250,"33",64768389
+55518,"Libreville","XAF","GB","GA","GAB","AF",78,"Gabon","Franc",266,"241",1545255
+55519,"London","GBP","UK","GB","GBR","EU",79,"United Kingdom","Pound",826,"44",62348447
+55520,"St. George's","XCD","GJ","GD","GRD","NA",80,"Grenada","Dollar",308,"+1-473",107818
+55521,"Tbilisi","GEL","GG","GE","GEO","AS",81,"Georgia","Lari",268,"995",4630000
+55522,"Cayenne","EUR","FG","GF","GUF","SA",82,"French Guiana","Euro",254,"594",195506
+55523,"St Peter Port","GBP","GK","GG","GGY","EU",83,"Guernsey","Pound",831,"+44-1481",65228
+55524,"Accra","GHS","GH","GH","GHA","AF",84,"Ghana","Cedi",288,"233",24339838
+55525,"Gibraltar","GIP","GI","GI","GIB","EU",85,"Gibraltar","Pound",292,"350",27884
+55526,"Nuuk","DKK","GL","GL","GRL","NA",86,"Greenland","Krone",304,"299",56375
+55527,"Banjul","GMD","GA","GM","GMB","AF",87,"Gambia","Dalasi",270,"220",1593256
+55528,"Conakry","GNF","GV","GN","GIN","AF",88,"Guinea","Franc",324,"224",10324025
+55529,"Basse-Terre","EUR","GP","GP","GLP","NA",89,"Guadeloupe","Euro",312,"590",443000
+55530,"Malabo","XAF","EK","GQ","GNQ","AF",90,"Equatorial Guinea","Franc",226,"240",1014999
+55531,"Athens","EUR","GR","GR","GRC","EU",91,"Greece","Euro",300,"30",11000000
+55532,"Grytviken","GBP","SX","GS","SGS","AN",92,"South Georgia and the South Sandwich Islands","Pound",239,"",30
+55533,"Guatemala City","GTQ","GT","GT","GTM","NA",93,"Guatemala","Quetzal",320,"502",13550440
+55534,"Hagatna","USD","GQ","GU","GUM","OC",94,"Guam","Dollar",316,"+1-671",159358
+55535,"Bissau","XOF","PU","GW","GNB","AF",95,"Guinea-Bissau","Franc",624,"245",1565126
+55536,"Georgetown","GYD","GY","GY","GUY","SA",96,"Guyana","Dollar",328,"592",748486
+55537,"Hong Kong","HKD","HK","HK","HKG","AS",97,"Hong Kong","Dollar",344,"852",6898686
+55538,"","AUD","HM","HM","HMD","AN",98,"Heard Island and McDonald Islands","Dollar",334,"",
+55539,"Tegucigalpa","HNL","HO","HN","HND","NA",99,"Honduras","Lempira",340,"504",7989415
+55540,"Zagreb","HRK","HR","HR","HRV","EU",100,"Croatia","Kuna",191,"385",4491000

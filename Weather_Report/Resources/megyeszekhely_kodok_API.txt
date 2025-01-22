@@ -1,0 +1,23 @@
+http://api.openweathermap.org/data/2.5/group?id=3044310,3052009,3042638,3054643,3042929,3044082,3044774,3050616,3046526,3044760,717582,715429,3050434,715126,722437,721472,716935,721239,3045643&lang=hu&units=metric&appid=c839a31f5b53203107384ff723684bdf
+
+Szombathely: 3044310
+Győr: 3052009
+Zalaegerszeg: 3042638
+Budapest: 3054643 
+Veszprém: 3042929
+Tatabánya: 3044082
+Székesfehérvár: 3044774
+Kaposvár: 3050616
+Pécs: 3046526
+Szekszárd: 3044760
+Miskolc: 717582
+Szeged: 715429
+Kecskemét: 3050434
+Szolnok: 715126
+Békéscsaba: 722437
+Debrecen: 721472
+Nyíregyháza: 716935
+Eger: 721239
+Salgótarján: 3045643
+
+

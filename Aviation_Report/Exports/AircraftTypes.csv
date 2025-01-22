@@ -1,0 +1,101 @@
+data.id,data.iata_code,data.aircraft_name,data.plane_type_id
+22228,"100","Fokker 100",1
+22229,"141","British Aerospace BAe 146-100",2
+22230,"142","British Aerospace BAe 146-200",3
+22231,"143","British Aerospace BAe 146-300",4
+22232,"146","British Aerospace BAe 146",5
+22233,"14F","British Aerospace BAe 146 Freighter",6
+22234,"14X","British Aerospace BAe 146-100QT/QC",7
+22235,"14Y","British Aerospace BAe 146-200QT/QC",8
+22236,"14Z","British Aerospace BAe 146-300QT/QC",9
+22237,"310","Airbus Industrie A310",10
+22238,"312","Airbus Industrie A310-200",11
+22239,"313","Airbus Industrie A310-300",12
+22240,"318","Airbus Industrie A318",13
+22241,"319","Airbus Industrie A319",14
+22242,"31F","Airbus Industrie A310 Freighter",15
+22243,"31X","Airbus Industrie A310-200 Freighter",16
+22244,"31Y","Airbus Industrie A310-300 Freighter",17
+22245,"320","Airbus Industrie A320",18
+22246,"321","Airbus Industrie A321",19
+22247,"32S","Airbus Industrie A318/319/320/321",20
+22248,"330","Airbus Industrie A330",21
+22249,"332","Airbus Industrie A330-200",22
+22250,"333","Airbus Industrie A330-300",23
+22251,"340","Airbus Industrie A340",24
+22252,"342","Airbus Industrie A340-200",25
+22253,"343","Airbus Industrie A340-300",26
+22254,"345","Airbus Industrie A340-500",27
+22255,"346","Airbus Industrie A340-600",28
+22256,"380","Airbus Industrie A380",29
+22257,"388","Airbus Industrie A380-800",30
+22258,"38F","Airbus Industrie A380 Freighter",31
+22259,"703","Boeing 707-300",32
+22260,"707","Boeing 707/720",33
+22261,"70F","Boeing 707-300 Freighter",34
+22262,"70M","Boeing 707-300 Combi",35
+22263,"717","Boeing 717-200",36
+22264,"721","Boeing 727-100",37
+22265,"722","Boeing 727-200",38
+22266,"727","Boeing 727",39
+22267,"72A","Boeing 727-200 Advanced",40
+22268,"72B","Boeing 727-100 Combi",41
+22269,"72C","Boeing 727-200 Combi",42
+22270,"72F","Boeing 727 Freighter",43
+22271,"72M","Boeing 727 Combi",44
+22272,"72S","Boeing 727-200",45
+22273,"72X","Boeing 727-100 Freighter",46
+22274,"72Y","Boeing 727-200 Freighter",47
+22275,"731","Boeing 737-100",48
+22276,"732","Boeing 737-200",49
+22277,"733","Boeing 737-300",50
+22278,"734","Boeing 737-400",51
+22279,"735","Boeing 737-500",52
+22280,"736","Boeing 737-600",53
+22281,"737","Boeing 737",54
+22282,"738","Boeing 737-800",55
+22283,"739","Boeing 737-900",56
+22284,"73A","Boeing 737-200/200C Advanced",57
+22285,"73C","Boeing 737-300",58
+22286,"73E","Boeing 737-900ER",59
+22287,"73F","Boeing 737 Freighter",60
+22288,"73G","Boeing 737-700",61
+22289,"73H","Boeing 737-800 With Winglets",62
+22290,"73J","Boeing 737-900 With Winglets",63
+22291,"73M","Boeing 737-200 Combi",64
+22292,"73N","Boeing 737-300 Mixed Config",65
+22293,"73P","Boeing 737-400 Freighter",66
+22294,"73Q","Boeing 737-400 Mixed Config",67
+22295,"73S","Boeing 737 Advanced",68
+22296,"73W","Boeing 737-700 With Winglets",69
+22297,"73X","Boeing 737-200 Freighter",70
+22298,"73Y","Boeing 737-300 Freighter",71
+22299,"741","Boeing 747-100",72
+22300,"742","Boeing 747-200",73
+22301,"743","Boeing 747-300 (including -100SUD and -200SUD)",74
+22302,"744","Boeing 747-400",75
+22303,"747","Boeing 747",76
+22304,"74C","Boeing 747-200 Combi",77
+22305,"74D","Boeing 747-300 Combi (including -200SUD)",78
+22306,"74E","Boeing 747-400 Combi",79
+22307,"74F","Boeing 747 Freighter",80
+22308,"74J","Boeing 747-400 Domestic",81
+22309,"74L","Boeing 747SP",82
+22310,"74M","Boeing 747 Combi",83
+22311,"74T","Boeing 747-100 Freighter",84
+22312,"74U","Boeing 747-300 Freighter",85
+22313,"74V","Boeing 747SR Freighter",86
+22314,"74X","Boeing 747-200 Freighter",87
+22315,"74Y","Boeing 747-400 Freighter",88
+22316,"752","Boeing 757-200",89
+22317,"753","Boeing 757-300",90
+22318,"757","Boeing 757",91
+22319,"75F","Boeing 757-200 Freighter",92
+22320,"75M","Boeing 757-200 Combi",93
+22321,"75W","Boeing 757-200 With Winglets",94
+22322,"762","Boeing 767-200",95
+22323,"763","Boeing 767-300",96
+22324,"764","Boeing 767-400",97
+22325,"767","Boeing 767",98
+22326,"76F","Boeing 767 Freighter",99
+22327,"76X","Boeing 767-200 Freighter",100

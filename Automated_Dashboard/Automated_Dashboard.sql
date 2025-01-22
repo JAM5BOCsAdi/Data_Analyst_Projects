@@ -11,7 +11,7 @@ GO
 --	LOCATION NVARCHAR(200),
 --	COUNTRY NVARCHAR(200),
 --	TIME NVARCHAR(200),
---	VALUE FLOAT --> NVARCHAR(200) Works, because there are numbers, that are 1.234E +11 format.
+--	VALUE NVARCHAR(200) -- > Works, because there are numbers, that are 1.234E +11 format.
 --);
 
 --SELECT *
@@ -89,7 +89,7 @@ CREATE PROCEDURE GDP_Excel_Input_Monthly AS
 
 		-- Bulk insert data into the table, skipping the header row
 		BULK INSERT Automated_Database.dbo.gdp_raw_data
-		FROM 'C:\Users\{user}\Documents\Data_Analyst\Data_Analyst_Projects\Automated_Dashboard\gdp_raw_data.csv'
+		FROM 'C:\Users\orada\Documents\Data_Analyst\Data_Analyst_Projects\Automated_Dashboard\gdp_raw_data.csv'
 		WITH (
 			FORMAT='CSV',
 			FIRSTROW=2 -- Skip the first row (header row)
