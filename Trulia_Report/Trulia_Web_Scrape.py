@@ -5,7 +5,6 @@
 # https://www.trulia.com/CA/San_Diego/
 # https://www.trulia.com/home/12360-carmel-country-rd-301-san-diego-ca-92130-65237705
 
-
 # All the Cities that we are interested in:
 # 1. San Diego
 # 2. Albuquerque
@@ -20,55 +19,57 @@
 
 # ------------ Imports ------------
 from bs4 import BeautifulSoup
-import requests
-import pandas
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
-# ------------ HTTP Request ------------
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-}
-# store website in variable
-website = 'https://www.trulia.com/CA/San_Diego/'
-# get request
-response = requests.get(website, headers=headers)
-# status code
-response.status_code
+# ------------ Selenium Setup ------------
+# Set up Chrome WebDriver
+service = Service('C:/Users/orada/Documents/Data_Analyst/Data_Analyst_Projects/Trulia_Report/ChromeDriver/chromedriver-win64/chromedriver.exe')
+driver = webdriver.Chrome(service=service)
 
-# ------------ Soup Object ------------
-soup = BeautifulSoup(response.content,'html.parser')
-soup
+# Load the page
+url = 'https://www.trulia.com/CA/San_Diego/'
+driver.get(url)
 
-print(f"Soup HTML: {soup}")
+# Grab the page source after rendering
+page_source = driver.page_source
+
+# Parse the rendered HTML with BeautifulSoup
+soup = BeautifulSoup(page_source, 'html.parser')
+print (f"Soup: {soup}")
 
 # ------------ Results ------------
-results_container = soup.find_all('li',{'class':'Grid__CellBox-sc-144isrp-0 sc-84372ace-0 yoWOn cEFmzn'})
-print(f"Results_Container: {len(results_container)}")
+results_container = soup.find_all('li', {'class': 'Grid__CellBox-sc-144isrp-0 sc-84372ace-0 yoWOn cEFmzn'})
 print(f"Results_Container: {results_container}")
+print(f"Results_Container: {len(results_container)}")
 
 # ------------ Update Results ------------
-# Get rid of unnecessary "li" elements that are hidden.
-# So in other words, just keep the 'data-testid' attributes
-results_update =[]
+# Keep only 'li' elements with the 'data-testid' attribute
+results_update = []
 for r in results_container:
     if r.has_attr('data-testid'):
         results_update.append(r)
 print(f"Results_Update: {len(results_update)}")
-print(f"Results Update: {results_update}")
+print(f"Results_Update: {results_update}")
 
 # ------------ Concatenate 2 URL Parts to get absolute URL ------------
 # URL Part 1
-# We combine URL Part 1 with URL part 2, in order to get the absolute URL
 url_part1 = 'https://www.trulia.com'
 url_part2 = []
 
 for item in results_update:
-    link_div = item.find_all('div',{'data-testid':'property-card-details'})
-    print(f'link_div: {link_div}')
-    print(f'Len of link_div: {len(link_div)}')
+    link_div = item.find_all('div', {'data-testid': 'property-card-details'})
     for link in link_div:
         url_part2.append(link.find('a').get('href'))
-print(f'Url Part 2:\n{url_part2}')
-print(f'Len of Url Part 2: {len(url_part2)}')
+
+print(f'Total Links Found: {len(url_part2)}')
+print(f'Total Links Found: {url_part2}')
+
+# ------------ Clean Up Selenium ------------
 
 # ------------ Get Data from First Link ------------
 # Address
@@ -89,3 +90,5 @@ print(f'Len of Url Part 2: {len(url_part2)}')
 
 
 # ************************* Part 3 *************************
+
+driver.quit()
