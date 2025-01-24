@@ -35,6 +35,9 @@ driver = webdriver.Chrome(service=service)
 url = 'https://www.trulia.com/CA/San_Diego/'
 driver.get(url)
 
+# Time to sleep for 20 sec to load URL
+time.sleep(20)
+
 # Grab the page source after rendering
 page_source = driver.page_source
 
