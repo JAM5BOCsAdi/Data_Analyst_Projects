@@ -58,6 +58,13 @@ try:
     print(f"Total Listings Found: {len(results)}")
     print(f"Total Property Links: {len(property_links)}")
     print(property_links)
+    
+    first_link = property_links[0]
+    print(f"First Property Link: {first_link}")
+    
+    response = driver.get(first_link)
+    
+    
 
 except Exception as e:
     print(f"An error occurred: {e}")
