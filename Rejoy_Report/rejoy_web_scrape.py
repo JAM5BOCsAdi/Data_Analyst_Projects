@@ -45,15 +45,6 @@ def extract_phone_data(item):
     if warranty.startswith("Garancia:"):
         warranty = warranty.split(": ")[-1].strip()  # Take the part after ": "
     
-    # Extract delivery (e.g., "2-3 munkanap")
-    delivery_div = item.find('div', {'data-cy': 'phone-delivery'})
-    delivery = ''
-    
-    if delivery_div:
-        delivery_text = delivery_div.find_all('span', class_='text-primary-green')
-        if delivery_text:
-            delivery = delivery_text[0].text.strip()  # Get the delivery time like "2-3 munkanap"
-    
     # Extract price
     price_div = item.find('span', {'data-cy': 'phone-price'})
     price = price_div.text.strip() if price_div else 'N/A'
@@ -64,10 +55,10 @@ def extract_phone_data(item):
         'Memory': memory,  # Memory from Title2
         'Status': status,  # Status from Title2
         'Warranty': warranty,  # Warranty will now just contain the duration (e.g., "2 év")
-        'Delivery': delivery,  # Delivery will now contain the delivery time (e.g., "2-3 munkanap")
         'Price': price,  # Price
         'Link': link
     }
+
 
 def scrape_page(page_num):
     url = f'https://www.rejoy.hu/telefon/?page={page_num}&sort=BUY_PRICE_DESC'
