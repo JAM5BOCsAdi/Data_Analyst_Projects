@@ -98,7 +98,7 @@ def save_to_sql(dataframe, table_name, conn):
     create_table_if_not_exists(conn, table_name)  # Ensure the table exists
     cursor = conn.cursor()
     
-    for index, row in dataframe.iterrows():
+    for _, row in dataframe.iterrows():
         try:
             # Prepare the insert query with existence check (only on Link and Time)
             if table_name == 'Smartwatches':
@@ -174,6 +174,7 @@ def extract_data(item, category, current_time):
         # Add time column with hourly suffix
         time_column = current_time
 
+        # Extract data for 'Smartwatches'
         if category == 'Okosórák':
             title = re.sub(r'\s*\d{4}$', '', title).strip()
             connectivity = title2_parts[0] if len(title2_parts) > 0 else ''
@@ -192,7 +193,11 @@ def extract_data(item, category, current_time):
             warranty = warranty_div.text.strip() if warranty_div else ''
             if warranty.startswith("Garancia:"):
                 warranty = warranty.split(": ")[-1].strip()
-            
+
+            # Extract only the numeric part of the warranty (e.g., 2 years)
+            warranty_years = re.sub(r'\D', '', warranty)  # Remove non-numeric characters
+            warranty_years = int(warranty_years) if warranty_years.isdigit() else None
+
             return {
                 'Time': time_column,
                 'Title': title,
@@ -201,7 +206,7 @@ def extract_data(item, category, current_time):
                 'Color': color,
                 'Size': size,
                 'Status': status,
-                'Warranty': warranty,
+                'Warranty_years': warranty_years,  # Warranty as numeric years
                 'Price': price,
                 'Link': link
             }
@@ -215,6 +220,11 @@ def extract_data(item, category, current_time):
             warranty = warranty_div.text.strip() if warranty_div else ''
             if warranty.startswith("Garancia:"):
                 warranty = warranty.split(": ")[-1].strip()
+
+            # Extract only the numeric part of the warranty (e.g., 2 years)
+            warranty_years = re.sub(r'\D', '', warranty)  # Remove non-numeric characters
+            warranty_years = int(warranty_years) if warranty_years.isdigit() else None
+
             price_div = item.find('span', {'data-cy': 'phone-price'})
             price_text = price_div.text.strip() if price_div else 'N/A'
             price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
@@ -226,13 +236,14 @@ def extract_data(item, category, current_time):
                 'Color': color,
                 'Memory': memory,
                 'Status': status,
-                'Warranty': warranty,
+                'Warranty_years': warranty_years,  # Warranty as numeric years
                 'Price': price,
                 'Link': link
             }
     except Exception as e:
         print(f"⚠️ Warning: Failed to extract product data - {e}")
         return None
+
 
 # Scrape data from a given page
 def scrape_page(page_num, category_url, category_name, current_time):
