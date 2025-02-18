@@ -62,6 +62,9 @@ def create_table_if_not_exists(conn, table_name):
             CREATE TABLE Laptops (
                 Time VARCHAR(20),
                 Title VARCHAR(255),
+                CPU VARCHAR(100),
+                RAM VARCHAR(50),
+                Graphics VARCHAR(50),
                 Memory VARCHAR(50),
                 Color VARCHAR(50),
                 Status VARCHAR(50),
@@ -109,6 +112,16 @@ def save_to_sql(dataframe, table_name, conn):
                 )
                 INSERT INTO {table_name} (Time, Title, GPS, Cellular, Color, Size, Status, Warranty, Price, Link)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+            elif table_name == 'Laptops':  # Check for Laptops
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?
+                )
+                INSERT INTO {table_name} (Time, Title, CPU, RAM, Graphics, Memory, Color, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 '''
                 params = (row['Link'], row['Time']) + tuple(row)
             else:
@@ -209,6 +222,28 @@ def extract_data(item, category, current_time):
                 'Cellular': cellular,
                 'Color': color,
                 'Size': size,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
+        elif category == 'Laptopok':  # Laptops
+            title_parts = title.split(',')
+            cpu = title_parts[1].strip() if len(title_parts) > 1 else ''
+            ram = title_parts[2].strip() if len(title_parts) > 2 else ''
+            graphics = title_parts[3].strip() if len(title_parts) > 3 else ''
+            color = title2_parts[0] if len(title2_parts) > 0 else ''
+            memory = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+
+            return {
+                'Time': time_column,
+                'Title': title,
+                'CPU': cpu,
+                'RAM': ram,
+                'Graphics': graphics,
+                'Memory': memory,
+                'Color': color,
                 'Status': status,
                 'Warranty': warranty_years,  # Warranty as numeric years
                 'Price': price,
