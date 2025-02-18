@@ -174,8 +174,24 @@ def extract_data(item, category, current_time):
         # Add time column with hourly suffix
         time_column = current_time
 
-        # Extract data for 'Smartwatches'
-        if category == 'Okosórák':
+        # Extract warranty and clean numeric values
+        warranty_div = item.find('div', {'data-cy': 'phone-warranty'})
+        warranty_text = warranty_div.text.strip() if warranty_div else ''
+        
+        if warranty_text.startswith("Garancia:"):
+            warranty_text = warranty_text.split(": ")[-1].strip()
+
+        # Extract numeric part only (e.g., "2 év" → 2)
+        warranty_years = re.search(r'\d+', warranty_text)
+        warranty_years = int(warranty_years.group()) if warranty_years else None
+
+        # Extract price
+        price_div = item.find('span', {'data-cy': 'phone-price'})
+        price_text = price_div.text.strip() if price_div else 'N/A'
+        price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
+        price = int(price_value) if price_value.isdigit() else None
+
+        if category == 'Okosórák':  # Smartwatches
             title = re.sub(r'\s*\d{4}$', '', title).strip()
             connectivity = title2_parts[0] if len(title2_parts) > 0 else ''
             color_size_part = title2_parts[1] if len(title2_parts) > 1 else ''
@@ -185,18 +201,6 @@ def extract_data(item, category, current_time):
             size_match = re.search(r'(\d{2})mm', color_size_part)
             size = int(size_match.group(1)) if size_match else None
             color = re.sub(r'\s*\d{2}mm', '', color_size_part).strip()
-            price_div = item.find('span', {'data-cy': 'phone-price'})
-            price_text = price_div.text.strip() if price_div else 'N/A'
-            price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
-            price = int(price_value) if price_value.isdigit() else None
-            warranty_div = item.find('div', {'data-cy': 'phone-warranty'})
-            warranty = warranty_div.text.strip() if warranty_div else ''
-            if warranty.startswith("Garancia:"):
-                warranty = warranty.split(": ")[-1].strip()
-
-            # Extract only the numeric part of the warranty (e.g., 2 years)
-            warranty_years = re.sub(r'\D', '', warranty)  # Remove non-numeric characters
-            warranty_years = int(warranty_years) if warranty_years.isdigit() else None
 
             return {
                 'Time': time_column,
@@ -206,7 +210,7 @@ def extract_data(item, category, current_time):
                 'Color': color,
                 'Size': size,
                 'Status': status,
-                'Warranty_years': warranty_years,  # Warranty as numeric years
+                'Warranty': warranty_years,  # Warranty as numeric years
                 'Price': price,
                 'Link': link
             }
@@ -215,20 +219,7 @@ def extract_data(item, category, current_time):
             memory = title2_parts[1] if len(title2_parts) > 1 else ''
             status = title2_parts[2] if len(title2_parts) > 2 else ''
             if category in ['Tabletek', 'Laptopok']:
-                color, memory = memory, color
-            warranty_div = item.find('div', {'data-cy': 'phone-warranty'})
-            warranty = warranty_div.text.strip() if warranty_div else ''
-            if warranty.startswith("Garancia:"):
-                warranty = warranty.split(": ")[-1].strip()
-
-            # Extract only the numeric part of the warranty (e.g., 2 years)
-            warranty_years = re.sub(r'\D', '', warranty)  # Remove non-numeric characters
-            warranty_years = int(warranty_years) if warranty_years.isdigit() else None
-
-            price_div = item.find('span', {'data-cy': 'phone-price'})
-            price_text = price_div.text.strip() if price_div else 'N/A'
-            price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
-            price = int(price_value) if price_value.isdigit() else None
+                color, memory = memory, color  # Swap values if needed
 
             return {
                 'Time': time_column,
@@ -236,13 +227,14 @@ def extract_data(item, category, current_time):
                 'Color': color,
                 'Memory': memory,
                 'Status': status,
-                'Warranty_years': warranty_years,  # Warranty as numeric years
+                'Warranty': warranty_years,  # Warranty as numeric years
                 'Price': price,
                 'Link': link
             }
     except Exception as e:
         print(f"⚠️ Warning: Failed to extract product data - {e}")
         return None
+
 
 
 # Scrape data from a given page

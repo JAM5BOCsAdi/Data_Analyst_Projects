@@ -18,7 +18,7 @@ CREATE VIEW vw_AllProducts AS
 		CAST(Color AS NVARCHAR(50)) AS Color,   -- Color as string
 		CAST(NULL AS INT) AS Size,              -- Size not applicable for Mobiles
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  -- Status as string
-		CAST(TRY_CAST(SUBSTRING(Warranty, 1, PATINDEX('%[^0-9]%', Warranty + ' ') - 1) AS INT) AS INT) AS Warranty_Years,  -- Extract numeric part
+		CAST(Warranty AS INT) AS Warranty_Years, -- Extract numeric part
 		CAST(Price AS INT) AS Price,            -- Price as number
 		CAST(Link AS NVARCHAR(500)) AS Link     -- Link as string
 	FROM 
@@ -35,7 +35,7 @@ CREATE VIEW vw_AllProducts AS
 		CAST(Color AS NVARCHAR(50)) AS Color,   -- Color as string
 		CAST(NULL AS INT) AS Size,              -- Size not applicable for Tablets
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  -- Status as string
-		CAST(TRY_CAST(SUBSTRING(Warranty, 1, PATINDEX('%[^0-9]%', Warranty + ' ') - 1) AS INT) AS INT) AS Warranty_Years,  -- Extract numeric part
+		CAST(Warranty AS INT) AS Warranty_Years,  -- Extract numeric part
 		CAST(Price AS INT) AS Price,            -- Price as number
 		CAST(Link AS NVARCHAR(500)) AS Link     -- Link as string
 	FROM 
@@ -52,7 +52,7 @@ CREATE VIEW vw_AllProducts AS
 		CAST(Color AS NVARCHAR(50)) AS Color,   -- Color as string
 		CAST(NULL AS INT) AS Size,              -- Size not applicable for Laptops
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  -- Status as string
-		CAST(TRY_CAST(SUBSTRING(Warranty, 1, PATINDEX('%[^0-9]%', Warranty + ' ') - 1) AS INT) AS INT) AS Warranty_Years,  -- Extract numeric part
+		CAST(Warranty AS INT) AS Warranty_Years,  -- Extract numeric part
 		CAST(Price AS INT) AS Price,            -- Price as number
 		CAST(Link AS NVARCHAR(500)) AS Link     -- Link as string
 	FROM 
@@ -69,7 +69,7 @@ CREATE VIEW vw_AllProducts AS
 		CAST(Color AS NVARCHAR(50)) AS Color,   -- Color as string
 		CAST(Size AS INT) AS Size,              -- Size as number
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  -- Status as string
-		CAST(TRY_CAST(SUBSTRING(Warranty, 1, PATINDEX('%[^0-9]%', Warranty + ' ') - 1) AS INT) AS INT) AS Warranty_Years,  -- Extract numeric part
+		CAST(Warranty AS INT) AS Warranty_Years,  -- Extract numeric part
 		CAST(Price AS INT) AS Price,            -- Price as number
 		CAST(Link AS NVARCHAR(500)) AS Link     -- Link as string
 	FROM 
@@ -77,7 +77,8 @@ CREATE VIEW vw_AllProducts AS
 ;
 GO
 
-SELECT * FROM vw_AllProducts;
+SELECT * FROM vw_AllProducts
+ORDER BY [Time] DESC;
 
 
 
@@ -115,3 +116,16 @@ EXEC sp_configure 'show advanced options', 0;
 RECONFIGURE;
 
 EXEC xp_cmdshell 'whoami'
+
+
+SELECT Warranty
+FROM Laptops
+
+SELECT Warranty
+FROM Mobiles
+
+SELECT Warranty
+FROM Smartwatches
+
+SELECT Warranty
+FROM Tablets
