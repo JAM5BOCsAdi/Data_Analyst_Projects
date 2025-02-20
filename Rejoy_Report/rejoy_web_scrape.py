@@ -230,10 +230,10 @@ def extract_data(item, category, current_time):
         elif category == 'Laptopok':  # Laptops
             title_parts = title.split(',')
             cpu = title_parts[1].strip() if len(title_parts) > 1 else ''
-            ram = title_parts[2].strip() if len(title_parts) > 2 else ''
+            ram = re.sub(r'\s*GB$', '', title_parts[2]).strip() if len(title_parts) > 2 else ''
             graphics = title_parts[3].strip() if len(title_parts) > 3 else ''
-            color = title2_parts[0] if len(title2_parts) > 0 else ''
-            memory = title2_parts[1] if len(title2_parts) > 1 else ''
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
             status = title2_parts[2] if len(title2_parts) > 2 else ''
 
             return {
@@ -253,7 +253,7 @@ def extract_data(item, category, current_time):
             color = title2_parts[0] if len(title2_parts) > 0 else ''
             memory = title2_parts[1] if len(title2_parts) > 1 else ''
             status = title2_parts[2] if len(title2_parts) > 2 else ''
-            if category in ['Tabletek', 'Laptopok']:
+            if category in ['Tabletek']:
                 color, memory = memory, color  # Swap values if needed
 
             return {
