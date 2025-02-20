@@ -7,7 +7,6 @@ BEGIN
     PRINT 'vw_AllProducts DROPPED';
 END;
 GO
-
 CREATE VIEW vw_AllProducts AS
 	SELECT 
 		'Mobiles' AS Product_Type, 
@@ -16,8 +15,8 @@ CREATE VIEW vw_AllProducts AS
 		CAST(NULL AS VARCHAR(100)) AS CPU,        
 		CAST(NULL AS VARCHAR(100)) AS RAM,        
 		CAST(NULL AS VARCHAR(100)) AS Graphics,   
-		CAST(NULL AS VARCHAR(100)) AS Memory,  -- Memory not applicable for Mobiles
-		CAST(Color AS NVARCHAR(50)) AS Color,   
+		CAST(Memory AS NVARCHAR(50)) AS Color,   -- Memory is now stored in Color column for Mobiles
+		CAST(Color AS NVARCHAR(100)) AS Memory,  -- Color is now stored in Memory column for Mobiles
 		CAST(NULL AS INT) AS Size,              
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  
 		CAST(Warranty AS INT) AS Warranty_Years,  
@@ -35,8 +34,8 @@ CREATE VIEW vw_AllProducts AS
 		CAST(NULL AS VARCHAR(100)) AS CPU,        
 		CAST(NULL AS VARCHAR(100)) AS RAM,        
 		CAST(NULL AS VARCHAR(100)) AS Graphics,   
-		CAST(NULL AS VARCHAR(100)) AS Memory,  -- Memory not applicable for Tablets
-		CAST(Color AS NVARCHAR(50)) AS Color,   
+		CAST(Memory AS NVARCHAR(50)) AS Color,   -- Memory is now stored in Color column for Tablets
+		CAST(Color AS NVARCHAR(100)) AS Memory,  -- Color is now stored in Memory column for Tablets
 		CAST(NULL AS INT) AS Size,              
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  
 		CAST(Warranty AS INT) AS Warranty_Years,  
@@ -54,8 +53,8 @@ CREATE VIEW vw_AllProducts AS
 		CAST(CPU AS VARCHAR(100)) AS CPU,         
 		CAST(RAM AS VARCHAR(100)) AS RAM,         
 		CAST(Graphics AS VARCHAR(100)) AS Graphics,  
-		CAST(Memory AS VARCHAR(100)) AS Memory,  --  Added Memory here
 		CAST(Color AS NVARCHAR(50)) AS Color,   
+		CAST(Memory AS VARCHAR(100)) AS Memory,  -- Memory is kept for Laptops
 		CAST(NULL AS INT) AS Size,              
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  
 		CAST(Warranty AS INT) AS Warranty_Years,  
@@ -73,8 +72,8 @@ CREATE VIEW vw_AllProducts AS
 		CAST(NULL AS VARCHAR(100)) AS CPU,        
 		CAST(NULL AS VARCHAR(100)) AS RAM,        
 		CAST(NULL AS VARCHAR(100)) AS Graphics,   
-		CAST(NULL AS VARCHAR(100)) AS Memory,  -- Memory not applicable for Smartwatches
 		CAST(Color AS NVARCHAR(50)) AS Color,   
+		CAST(NULL AS VARCHAR(100)) AS Memory,  -- Memory is not applicable for Smartwatches
 		CAST(Size AS INT) AS Size,              
 		CAST([Status] AS NVARCHAR(50)) AS [Status],  
 		CAST(Warranty AS INT) AS Warranty_Years,  
@@ -85,12 +84,9 @@ CREATE VIEW vw_AllProducts AS
 ;
 GO
 
+SELECT *
+FROM vw_AllProducts;
 
-
-
-
-SELECT * FROM vw_AllProducts
-ORDER BY [Time] DESC;
 
 SELECT *
 FROM Laptops

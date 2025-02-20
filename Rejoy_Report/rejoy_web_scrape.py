@@ -100,7 +100,7 @@ def create_table_if_not_exists(conn, table_name):
 def save_to_sql(dataframe, table_name, conn):
     create_table_if_not_exists(conn, table_name)  # Ensure the table exists
     cursor = conn.cursor()
-    
+
     for _, row in dataframe.iterrows():
         try:
             # Prepare the insert query with existence check (only on Link and Time)
@@ -108,35 +108,41 @@ def save_to_sql(dataframe, table_name, conn):
                 query = f'''
                 IF NOT EXISTS (
                     SELECT 1 FROM {table_name} 
-                    WHERE Link = ? AND Time = ?
-                )
+                    WHERE Link = ? AND Time = ?)
                 INSERT INTO {table_name} (Time, Title, GPS, Cellular, Color, Size, Status, Warranty, Price, Link)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 '''
                 params = (row['Link'], row['Time']) + tuple(row)
-            elif table_name == 'Laptops':  # Check for Laptops
+            elif table_name == 'Laptops':
                 query = f'''
                 IF NOT EXISTS (
                     SELECT 1 FROM {table_name} 
-                    WHERE Link = ? AND Time = ?
-                )
+                    WHERE Link = ? AND Time = ?)
                 INSERT INTO {table_name} (Time, Title, CPU, RAM, Graphics, Memory, Color, Status, Warranty, Price, Link)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 '''
                 params = (row['Link'], row['Time']) + tuple(row)
-            else:
+            elif table_name == 'Tablets':
                 query = f'''
                 IF NOT EXISTS (
                     SELECT 1 FROM {table_name} 
-                    WHERE Link = ? AND Time = ?
-                )
+                    WHERE Link = ? AND Time = ?)
+                INSERT INTO {table_name} (Time, Title, Memory, Color, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+            elif table_name == 'Mobiles':
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?)
                 INSERT INTO {table_name} (Time, Title, Color, Memory, Status, Warranty, Price, Link)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 '''
                 params = (row['Link'], row['Time']) + tuple(row)
-            
+
             cursor.execute(query, params)
-            
+
             if cursor.rowcount > 0:
                 print(f"✅ Record added: {row['Title']} - {row['Link']}")
             else:
@@ -146,6 +152,7 @@ def save_to_sql(dataframe, table_name, conn):
             print(f"⚠️ Warning: Failed to insert record - {e}")
 
     conn.commit()
+
 
 
 # Fetch the page content
@@ -204,30 +211,7 @@ def extract_data(item, category, current_time):
         price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
         price = int(price_value) if price_value.isdigit() else None
 
-        if category == 'Okosórák':  # Smartwatches
-            title = re.sub(r'\s*\d{4}$', '', title).strip()
-            connectivity = title2_parts[0] if len(title2_parts) > 0 else ''
-            color_size_part = title2_parts[1] if len(title2_parts) > 1 else ''
-            status = title2_parts[2] if len(title2_parts) > 2 else ''
-            gps = 'Yes' if 'GPS' in connectivity else 'No'
-            cellular = 'Yes' if 'Cellular' in connectivity else 'No'
-            size_match = re.search(r'(\d{2})mm', color_size_part)
-            size = int(size_match.group(1)) if size_match else None
-            color = re.sub(r'\s*\d{2}mm', '', color_size_part).strip()
-
-            return {
-                'Time': time_column,
-                'Title': title,
-                'GPS': gps,
-                'Cellular': cellular,
-                'Color': color,
-                'Size': size,
-                'Status': status,
-                'Warranty': warranty_years,  # Warranty as numeric years
-                'Price': price,
-                'Link': link
-            }
-        elif category == 'Laptopok':  # Laptops
+        if category == 'Laptopok':  # Laptops
             title_parts = title.split(',')
             cpu = title_parts[1].strip() if len(title_parts) > 1 else ''
             ram = re.sub(r'\s*GB$', '', title_parts[2]).strip() if len(title_parts) > 2 else ''
@@ -249,12 +233,12 @@ def extract_data(item, category, current_time):
                 'Price': price,
                 'Link': link
             }
-        else:
-            color = title2_parts[0] if len(title2_parts) > 0 else ''
-            memory = title2_parts[1] if len(title2_parts) > 1 else ''
+        # Extraction logic for different categories
+        if category == 'Telefonok':  # Mobiles
+            # Assuming the order is Color, Memory, Status (from title2_parts)
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
             status = title2_parts[2] if len(title2_parts) > 2 else ''
-            if category in ['Tabletek']:
-                color, memory = memory, color  # Swap values if needed
 
             return {
                 'Time': time_column,
@@ -266,9 +250,55 @@ def extract_data(item, category, current_time):
                 'Price': price,
                 'Link': link
             }
+
+        elif category == 'Tabletek':  # Tablets
+            # Assuming the order is Memory, Color, Status (from title2_parts)
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+
+            return {
+                'Time': time_column,
+                'Title': title,
+                'Color': color,
+                'Memory': memory,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
+        elif category == 'Okosórák':  # Smartwatches
+            # Clean the title and extract smartwatch-specific info
+            title = re.sub(r'\s*\d{4}$', '', title).strip()
+            connectivity = title2_parts[0] if len(title2_parts) > 0 else ''
+            color_size_part = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+            gps = 'Yes' if 'GPS' in connectivity else 'No'
+            cellular = 'Yes' if 'Cellular' in connectivity else 'No'
+
+            # Extract size (in mm) from the color-size part
+            size_match = re.search(r'(\d{2})mm', color_size_part)
+            size = int(size_match.group(1)) if size_match else None
+            color = re.sub(r'\s*\d{2}mm', '', color_size_part).strip()
+
+            return {
+                'Time': time_column,
+                'Title': title,
+                'GPS': gps,
+                'Cellular': cellular,
+                'Color': color,
+                'Size': size,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
     except Exception as e:
         print(f"⚠️ Warning: Failed to extract product data - {e}")
         return None
+
+
+
 
 
 
