@@ -19,118 +19,143 @@ BASE_URL = 'https://www.rejoy.hu'
 
 # SQL Server connection setup
 def get_sql_server_connection():
-    server = 'DESKTOP-3FSNRUN'
-    database = 'RejoyProducts'
+    server = 'DESKTOP-3FSNRUN'  # Your server name
+    database = 'RejoyProducts'  # Your database name
+    # Use Windows authentication
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
-    return pyodbc.connect(connection_string)
+    conn = pyodbc.connect(connection_string)
+    return conn
 
-# SQL table creation query templates
-create_table_queries = {
-    'Mobiles': '''
-        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Mobiles' AND xtype = 'U')
-        CREATE TABLE Mobiles (
-            Time VARCHAR(20),
-            Title VARCHAR(255),
-            Color VARCHAR(50),
-            Memory VARCHAR(50),
-            Status VARCHAR(50),
-            Warranty VARCHAR(50),
-            Price INT,
-            Link VARCHAR(255)
-        )
-    ''',
-    'Tablets': '''
-        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Tablets' AND xtype = 'U')
-        CREATE TABLE Tablets (
-            Time VARCHAR(20),
-            Title VARCHAR(255),
-            Memory VARCHAR(50),
-            Color VARCHAR(50),
-            Status VARCHAR(50),
-            Warranty VARCHAR(50),
-            Price INT,
-            Link VARCHAR(255)
-        )
-    ''',
-    'Laptops': '''
-        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Laptops' AND xtype = 'U')
-        CREATE TABLE Laptops (
-            Time VARCHAR(20),
-            Title VARCHAR(255),
-            CPU VARCHAR(100),
-            RAM VARCHAR(50),
-            Graphics VARCHAR(50),
-            Memory VARCHAR(50),
-            Color VARCHAR(50),
-            Status VARCHAR(50),
-            Warranty VARCHAR(50),
-            Price INT,
-            Link VARCHAR(255)
-        )
-    ''',
-    'Smartwatches': '''
-        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Smartwatches' AND xtype = 'U')
-        CREATE TABLE Smartwatches (
-            Time VARCHAR(20),
-            Title VARCHAR(255),
-            GPS VARCHAR(10),
-            Cellular VARCHAR(10),
-            Color VARCHAR(50),
-            Size INT,
-            Status VARCHAR(50),
-            Warranty VARCHAR(50),
-            Price INT,
-            Link VARCHAR(255)
-        )
-    '''
-}
-
-# Create table if it doesn't exist
+# Create tables if they don't exist
 def create_table_if_not_exists(conn, table_name):
     cursor = conn.cursor()
-    cursor.execute(create_table_queries.get(table_name, ''))
-    conn.commit()
 
-# Save data to SQL Server
-def save_to_sql(dataframe, table_name, conn):
-    create_table_if_not_exists(conn, table_name)
-    cursor = conn.cursor()
-    
-    insert_queries = {
-        'Smartwatches': '''
-            IF NOT EXISTS (SELECT 1 FROM Smartwatches WHERE Link = ? AND Time = ?)
-            INSERT INTO Smartwatches (Time, Title, GPS, Cellular, Color, Size, Status, Warranty, Price, Link)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''',
-        'Laptops': '''
-            IF NOT EXISTS (SELECT 1 FROM Laptops WHERE Link = ? AND Time = ?)
-            INSERT INTO Laptops (Time, Title, CPU, RAM, Graphics, Memory, Color, Status, Warranty, Price, Link)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    create_table_queries = {
+        'Mobiles': '''
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Mobiles' AND xtype = 'U')
+            CREATE TABLE Mobiles (
+                Time VARCHAR(20),
+                Title VARCHAR(255),
+                Color VARCHAR(50),
+                Memory VARCHAR(50),
+                Status VARCHAR(50),
+                Warranty VARCHAR(50),
+                Price INT,
+                Link VARCHAR(255)
+            )
         ''',
         'Tablets': '''
-            IF NOT EXISTS (SELECT 1 FROM Tablets WHERE Link = ? AND Time = ?)
-            INSERT INTO Tablets (Time, Title, Memory, Color, Status, Warranty, Price, Link)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Tablets' AND xtype = 'U')
+            CREATE TABLE Tablets (
+                Time VARCHAR(20),
+                Title VARCHAR(255),
+                Memory VARCHAR(50),
+                Color VARCHAR(50),
+                Status VARCHAR(50),
+                Warranty VARCHAR(50),
+                Price INT,
+                Link VARCHAR(255)
+            )
         ''',
-        'Mobiles': '''
-            IF NOT EXISTS (SELECT 1 FROM Mobiles WHERE Link = ? AND Time = ?)
-            INSERT INTO Mobiles (Time, Title, Color, Memory, Status, Warranty, Price, Link)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        'Laptops': '''
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Laptops' AND xtype = 'U')
+            CREATE TABLE Laptops (
+                Time VARCHAR(20),
+                Title VARCHAR(255),
+                CPU VARCHAR(100),
+                RAM VARCHAR(50),
+                Graphics VARCHAR(50),
+                Memory VARCHAR(50),
+                Color VARCHAR(50),
+                Status VARCHAR(50),
+                Warranty VARCHAR(50),
+                Price INT,
+                Link VARCHAR(255)
+            )
+        ''',
+        'Smartwatches': '''
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Smartwatches' AND xtype = 'U')
+            CREATE TABLE Smartwatches (
+                Time VARCHAR(20),
+                Title VARCHAR(255),
+                GPS VARCHAR(10),
+                Cellular VARCHAR(10),
+                Color VARCHAR(50),
+                Size INT,
+                Status VARCHAR(50),
+                Warranty VARCHAR(50),
+                Price INT,
+                Link VARCHAR(255)
+            )
         '''
     }
 
-    query = insert_queries.get(table_name)
+    query = create_table_queries.get(table_name)
     if query:
-        for _, row in dataframe.iterrows():
-            params = (row['Link'], row['Time']) + tuple(row)
+        cursor.execute(query)
+        conn.commit()
+
+
+# Save data to SQL Server with existence check
+def save_to_sql(dataframe, table_name, conn):
+    create_table_if_not_exists(conn, table_name)  # Ensure the table exists
+    cursor = conn.cursor()
+
+    for _, row in dataframe.iterrows():
+        try:
+            # Prepare the insert query with existence check (only on Link and Time)
+            if table_name == 'Smartwatches':
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?)
+                INSERT INTO {table_name} (Time, Title, GPS, Cellular, Color, Size, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+            elif table_name == 'Laptops':
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?)
+                INSERT INTO {table_name} (Time, Title, CPU, RAM, Graphics, Memory, Color, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+            elif table_name == 'Tablets':
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?)
+                INSERT INTO {table_name} (Time, Title, Memory, Color, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+            elif table_name == 'Mobiles':
+                query = f'''
+                IF NOT EXISTS (
+                    SELECT 1 FROM {table_name} 
+                    WHERE Link = ? AND Time = ?)
+                INSERT INTO {table_name} (Time, Title, Color, Memory, Status, Warranty, Price, Link)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                '''
+                params = (row['Link'], row['Time']) + tuple(row)
+
             cursor.execute(query, params)
+
             if cursor.rowcount > 0:
                 print(f"✅ Record added: {row['Title']} - {row['Link']}")
             else:
                 print(f"🔄 Skipped (duplicate): {row['Title']} - {row['Link']}")
-        conn.commit()
 
-# Fetch the page content with retries
+        except Exception as e:
+            print(f"⚠️ Warning: Failed to insert record - {e}")
+
+    conn.commit()
+
+
+
+# Fetch the page content
 def fetch_page(url, retries=3):
     for attempt in range(retries):
         try:
@@ -138,14 +163,14 @@ def fetch_page(url, retries=3):
             if response.status_code == 200:
                 return response.text
             else:
-                print(f"⚠️ Warning: Status code {response.status_code} for {url}")
+                print(f"⚠️ Warning: Received status code {response.status_code} for {url}")
         except requests.exceptions.RequestException as e:
             print(f"⚠️ Warning: Request error ({e}) on attempt {attempt + 1}/{retries}")
         time.sleep(2)
     print(f"❌ Error: Failed to fetch {url} after {retries} attempts.")
     return None
 
-# Get last page number for pagination
+# Get the last page number for pagination
 def get_last_page(soup):
     try:
         pagination = soup.select('nav[aria-label="pagination"] li')
@@ -155,77 +180,119 @@ def get_last_page(soup):
         print(f"⚠️ Warning: Failed to extract last page number - {e}")
         return 1
 
-# Extract data based on category
+# Extract data from a product listing
 def extract_data(item, category, current_time):
     try:
         link_tag = item.find('a', href=True)
         link = f"{BASE_URL}{link_tag['href']}" if link_tag else ''
+
         title_spans = item.select('[data-cy="phone-title"] span')
         title = title_spans[0].text.strip() if len(title_spans) > 0 else ''
         title2 = title_spans[1].text.strip() if len(title_spans) > 1 else ''
         title2_parts = [part.strip() for part in title2.split(',')]
 
+        # Add time column with hourly suffix
         time_column = current_time
 
+        # Extract warranty and clean numeric values
         warranty_div = item.find('div', {'data-cy': 'phone-warranty'})
         warranty_text = warranty_div.text.strip() if warranty_div else ''
-        warranty_years = int(re.search(r'\d+', warranty_text).group()) if warranty_text else None
+        
+        if warranty_text.startswith("Garancia:"):
+            warranty_text = warranty_text.split(": ")[-1].strip()
 
+        # Extract numeric part only (e.g., "2 év" → 2)
+        warranty_years = re.search(r'\d+', warranty_text)
+        warranty_years = int(warranty_years.group()) if warranty_years else None
+
+        # Extract price
         price_div = item.find('span', {'data-cy': 'phone-price'})
         price_text = price_div.text.strip() if price_div else 'N/A'
         price_value = re.sub(r'[^\d]', '', price_text) if price_text != 'N/A' else ''
         price = int(price_value) if price_value.isdigit() else None
 
-        category_map = {
-            'Laptopok': lambda: {
+        if category == 'Laptopok':  # Laptops
+            title_parts = title.split(',')
+            cpu = title_parts[1].strip() if len(title_parts) > 1 else ''
+            ram = re.sub(r'\s*GB$', '', title_parts[2]).strip() if len(title_parts) > 2 else ''
+            graphics = title_parts[3].strip() if len(title_parts) > 3 else ''
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+
+            return {
                 'Time': time_column,
                 'Title': title,
-                'CPU': title2_parts[1] if len(title2_parts) > 1 else '',
-                'RAM': re.sub(r'\s*GB$', '', title2_parts[2]).strip() if len(title2_parts) > 2 else '',
-                'Graphics': title2_parts[3].strip() if len(title2_parts) > 3 else '',
-                'Memory': title2_parts[0] if len(title2_parts) > 0 else '',
-                'Color': title2_parts[1] if len(title2_parts) > 1 else '',
-                'Status': title2_parts[2] if len(title2_parts) > 2 else '',
-                'Warranty': warranty_years,
-                'Price': price,
-                'Link': link
-            },
-            'Telefonok': lambda: {
-                'Time': time_column,
-                'Title': title,
-                'Color': title2_parts[1] if len(title2_parts) > 1 else '',
-                'Memory': title2_parts[0] if len(title2_parts) > 0 else '',
-                'Status': title2_parts[2] if len(title2_parts) > 2 else '',
-                'Warranty': warranty_years,
-                'Price': price,
-                'Link': link
-            },
-            'Tabletek': lambda: {
-                'Time': time_column,
-                'Title': title,
-                'Color': title2_parts[1] if len(title2_parts) > 1 else '',
-                'Memory': title2_parts[0] if len(title2_parts) > 0 else '',
-                'Status': title2_parts[2] if len(title2_parts) > 2 else '',
-                'Warranty': warranty_years,
-                'Price': price,
-                'Link': link
-            },
-            'Okosórák': lambda: {
-                'Time': time_column,
-                'Title': re.sub(r'\s*\d{4}$', '', title).strip(),
-                'GPS': 'Yes' if 'GPS' in title2_parts[0] else 'No',
-                'Cellular': 'Yes' if 'Cellular' in title2_parts[0] else 'No',
-                'Color': re.sub(r'\s*\d{2}mm', '', title2_parts[1]).strip(),
-                'Size': int(re.search(r'(\d{2})mm', title2_parts[1]).group(1)) if 'mm' in title2_parts[1] else None,
-                'Status': title2_parts[2] if len(title2_parts) > 2 else '',
-                'Warranty': warranty_years,
+                'CPU': cpu,
+                'RAM': ram,
+                'Graphics': graphics,
+                'Memory': memory,
+                'Color': color,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
                 'Price': price,
                 'Link': link
             }
-        }
+        # Extraction logic for different categories
+        if category == 'Telefonok':  # Mobiles
+            # Assuming the order is Color, Memory, Status (from title2_parts)
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
 
-        return category_map.get(category, lambda: None)()
+            return {
+                'Time': time_column,
+                'Title': title,
+                'Color': color,
+                'Memory': memory,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
 
+        elif category == 'Tabletek':  # Tablets
+            # Assuming the order is Memory, Color, Status (from title2_parts)
+            memory = title2_parts[0] if len(title2_parts) > 0 else ''
+            color = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+
+            return {
+                'Time': time_column,
+                'Title': title,
+                'Color': color,
+                'Memory': memory,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
+        elif category == 'Okosórák':  # Smartwatches
+            # Clean the title and extract smartwatch-specific info
+            title = re.sub(r'\s*\d{4}$', '', title).strip()
+            connectivity = title2_parts[0] if len(title2_parts) > 0 else ''
+            color_size_part = title2_parts[1] if len(title2_parts) > 1 else ''
+            status = title2_parts[2] if len(title2_parts) > 2 else ''
+            gps = 'Yes' if 'GPS' in connectivity else 'No'
+            cellular = 'Yes' if 'Cellular' in connectivity else 'No'
+
+            # Extract size (in mm) from the color-size part
+            size_match = re.search(r'(\d{2})mm', color_size_part)
+            size = int(size_match.group(1)) if size_match else None
+            color = re.sub(r'\s*\d{2}mm', '', color_size_part).strip()
+
+            return {
+                'Time': time_column,
+                'Title': title,
+                'GPS': gps,
+                'Cellular': cellular,
+                'Color': color,
+                'Size': size,
+                'Status': status,
+                'Warranty': warranty_years,  # Warranty as numeric years
+                'Price': price,
+                'Link': link
+            }
     except Exception as e:
         print(f"⚠️ Warning: Failed to extract product data - {e}")
         return None
@@ -242,14 +309,6 @@ def scrape_page(page_num, category_url, category_name, current_time):
 
 # Main scraping and saving logic
 def main():
-    # Category mapping for the correct keys in dataframes
-    category_to_dataframe_key = {
-        'Telefonok': 'Mobiles',
-        'Tabletek': 'Tablets',
-        'Laptopok': 'Laptops',
-        'Okosórák': 'Smartwatches'
-    }
-
     categories = {
         'Telefonok': 'https://www.rejoy.hu/telefon',
         'Tabletek': 'https://www.rejoy.hu/tablet',
@@ -281,10 +340,14 @@ def main():
             print(f"➡️ Scraping {category} - Page {page}/{last_page}...")
             scraped_data = scrape_page(page, category_url, category, current_time)
             if scraped_data:
-                # Use the mapping to store data under the correct key
-                dataframe_key = category_to_dataframe_key.get(category)
-                if dataframe_key:
-                    dataframes[dataframe_key].extend(scraped_data)
+                if category == 'Telefonok':
+                    dataframes['Mobiles'].extend(scraped_data)
+                elif category == 'Tabletek':
+                    dataframes['Tablets'].extend(scraped_data)
+                elif category == 'Laptopok':
+                    dataframes['Laptops'].extend(scraped_data)
+                elif category == 'Okosórák':
+                    dataframes['Smartwatches'].extend(scraped_data)
             time.sleep(1)
 
     # Save data to SQL Server
